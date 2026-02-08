@@ -8,6 +8,7 @@ import {
   createWithdrawal,
   getAuthorWithdrawals
 } from '../services/royaltyService.js';
+import { withdrawals } from '../data/seedData.js';
 
 
 export const listAuthors = (req, res) => {
@@ -24,16 +25,19 @@ export const listAuthors = (req, res) => {
 
 
 export const getAuthorDetails = (req, res) => {
-    const authorId = parseInt(req.params.id); // Get the author ID from the request parameters
-    const author = getAuthorById(authorId); // Get the author details from the service
+    const authorId = parseInt(req.params.id);
+    const author = getAuthorById(authorId);
 
     if(!author) {
-        return res.status(404).json({ error: "Author not found" }); // Return 404 if author is not found
+        return res.status(404).json({ error: "Author not found" });
     }
 
-    const books = getAuthorBooks(authorId); // Get the books written by the author
-    const totalEarnings = calculateAuthorEarnings(authorId); // Calculate total earnings for the author
-    const currentBalance = calculateCurrentBalance(authorId); // Calculate current balance for the author
+    const books = getAuthorBooks(authorId);
+    const totalEarnings = calculateAuthorEarnings(authorId);
+    const totalWithdrawn = withdrawals
+        .filter(w => w.author_id === authorId)
+        .reduce((sum, w) => sum + w.amount, 0);
+    const currentBalance = totalEarnings - totalWithdrawn;
 
     res.json({
         id: author.id,
