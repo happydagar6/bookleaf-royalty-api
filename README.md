@@ -72,12 +72,6 @@ Returns withdrawal history for an author (sorted newest first).
 5. CORS enabled for all origins to support automated testing
 6. No authentication/authorization required for this MVP
 
-## ⏱️ Time Spent
-Approximately **4 hours** total:
-- Backend implementation & logic: 2 hours
-- Testing calculations & validation: 1 hour
-- Deployment & documentation: 1 hour
-
 ## 🛠️ Local Development
 
 ```bash
